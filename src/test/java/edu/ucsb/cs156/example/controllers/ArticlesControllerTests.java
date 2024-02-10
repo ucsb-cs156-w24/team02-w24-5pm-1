@@ -8,6 +8,7 @@ import edu.ucsb.cs156.example.repositories.ArticlesRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -21,8 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 import java.time.LocalDateTime;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -45,36 +44,23 @@ public class ArticlesControllerTests extends ControllerTestCase {
     @Test
     public void loggedOutUsersCannotGetAll() throws Exception {
         mockMvc.perform(get("/api/articles/all"))
-                .andExpect(status().isForbidden()); // Logged out users can't get all
+                .andExpect(status().isForbidden()); // logged out users can't get all
     }
 
-    @WithMockUser(roles = { "USER" })
+    @WithMockUser(roles = {"USER"})
     @Test
     public void loggedInUsersCanGetAll() throws Exception {
         mockMvc.perform(get("/api/articles/all"))
-                .andExpect(status().isOk()); // Logged in users can get all
+                .andExpect(status().isOk()); // logged in users can get all
     }
 
-    @WithMockUser(roles = { "USER" })
+    @WithMockUser(roles = {"USER"})
     @Test
     public void loggedInUserCanGetAllArticles() throws Exception {
         LocalDateTime now = LocalDateTime.now();
 
-        Articles article1 = Articles.builder()
-                .title("Article 1")
-                .url("http://example.com/1")
-                .explanation("Explanation 1")
-                .email("user1@example.com")
-                .dateAdded(now)
-                .build();
-
-        Articles article2 = Articles.builder()
-                .title("Article 2")
-                .url("http://example.com/2")
-                .explanation("Explanation 2")
-                .email("user2@example.com")
-                .dateAdded(now)
-                .build();
+        Articles article1 = new Articles(1L, "Article 1 Title", "http://example.com/1", "Article 1 Explanation", "user1@example.com", now);
+        Articles article2 = new Articles(2L, "Article 2 Title", "http://example.com/2", "Article 2 Explanation", "user2@example.com", now);
 
         ArrayList<Articles> expectedArticles = new ArrayList<>();
         expectedArticles.addAll(Arrays.asList(article1, article2));
@@ -97,15 +83,15 @@ public class ArticlesControllerTests extends ControllerTestCase {
                 .andExpect(status().isForbidden());
     }
 
-    @WithMockUser(roles = { "ADMIN" })
+    @WithMockUser(roles = {"ADMIN"})
     @Test
     public void adminUserCanPostANewArticle() throws Exception {
         LocalDateTime now = LocalDateTime.now();
 
         Articles newArticle = Articles.builder()
-                .title("New Article")
+                .title("New Article Title")
                 .url("http://newexample.com")
-                .explanation("New Explanation")
+                .explanation("New Article Explanation")
                 .email("admin@example.com")
                 .dateAdded(now)
                 .build();
