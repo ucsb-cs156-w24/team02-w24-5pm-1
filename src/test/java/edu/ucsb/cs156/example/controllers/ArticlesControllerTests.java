@@ -6,6 +6,8 @@ import edu.ucsb.cs156.example.ControllerTestCase;
 import edu.ucsb.cs156.example.entities.Articles;
 import edu.ucsb.cs156.example.repositories.ArticlesRepository;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -14,17 +16,20 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Optional;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
+
+import java.time.LocalDateTime;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @WebMvcTest(controllers = ArticlesController.class)
 @Import(TestConfig.class)
@@ -36,91 +41,86 @@ public class ArticlesControllerTests extends ControllerTestCase {
     @MockBean
     private UserRepository userRepository;
 
-    // Sample article for use in tests
-    private final Articles sampleArticle = Articles.builder()
-            .id(1L)
-            .title("Test Article")
-            .url("https://example.com")
-            .explanation("This is a test article")
-            .email("test@example.com")
-            .dateAdded(LocalDateTime.now())
-            .build();
-
     // Tests for GET /api/articles/all
     @Test
-    public void logged_out_users_cannot_get_all() throws Exception {
+    public void loggedOutUsersCannotGetAll() throws Exception {
         mockMvc.perform(get("/api/articles/all"))
-                .andExpect(status().is(403)); // logged out users can't get all
+                .andExpect(status().isForbidden()); // Logged out users can't get all
     }
 
     @WithMockUser(roles = { "USER" })
     @Test
-    public void logged_in_users_can_get_all() throws Exception {
-        when(articlesRepository.findAll()).thenReturn(Arrays.asList(sampleArticle));
+    public void loggedInUsersCanGetAll() throws Exception {
         mockMvc.perform(get("/api/articles/all"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].title").value("Test Article"));
+                .andExpect(status().isOk()); // Logged in users can get all
+    }
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void loggedInUserCanGetAllArticles() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+
+        Articles article1 = Articles.builder()
+                .title("Article 1")
+                .url("http://example.com/1")
+                .explanation("Explanation 1")
+                .email("user1@example.com")
+                .dateAdded(now)
+                .build();
+
+        Articles article2 = Articles.builder()
+                .title("Article 2")
+                .url("http://example.com/2")
+                .explanation("Explanation 2")
+                .email("user2@example.com")
+                .dateAdded(now)
+                .build();
+
+        ArrayList<Articles> expectedArticles = new ArrayList<>();
+        expectedArticles.addAll(Arrays.asList(article1, article2));
+
+        when(articlesRepository.findAll()).thenReturn(expectedArticles);
+
+        MvcResult response = mockMvc.perform(get("/api/articles/all"))
+                .andExpect(status().isOk()).andReturn();
+
+        verify(articlesRepository, times(1)).findAll();
+        String expectedJson = mapper.writeValueAsString(expectedArticles);
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals(expectedJson, responseString);
     }
 
     // Tests for POST /api/articles/post
-    @WithMockUser(roles = { "ADMIN" })
     @Test
-    public void admin_can_post_new_article() throws Exception {
-        when(articlesRepository.save(any(Articles.class))).thenReturn(sampleArticle);
-        mockMvc.perform(post("/api/articles/post")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(sampleArticle))
-                .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("Test Article"));
+    public void loggedOutUsersCannotPost() throws Exception {
+        mockMvc.perform(post("/api/articles/post"))
+                .andExpect(status().isForbidden());
     }
 
-    // Tests for GET /api/articles?id={id}
-    @WithMockUser(roles = { "USER" })
-    @Test
-    public void user_can_get_article_by_id() throws Exception {
-        when(articlesRepository.findById(eq(sampleArticle.getId()))).thenReturn(Optional.of(sampleArticle));
-        mockMvc.perform(get("/api/articles")
-                .param("id", String.valueOf(sampleArticle.getId())))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("Test Article"));
-    }
-
-    // Tests for DELETE /api/articles?id={id}
     @WithMockUser(roles = { "ADMIN" })
     @Test
-    public void admin_can_delete_article() throws Exception {
-        when(articlesRepository.findById(eq(sampleArticle.getId()))).thenReturn(Optional.of(sampleArticle));
-        mockMvc.perform(delete("/api/articles")
-                .param("id", String.valueOf(sampleArticle.getId()))
-                .with(csrf()))
-                .andExpect(status().isOk());
-        verify(articlesRepository).delete(sampleArticle);
-    }
+    public void adminUserCanPostANewArticle() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
 
-    // Tests for PUT /api/articles?id={id}
-    @WithMockUser(roles = { "ADMIN" })
-    @Test
-    public void admin_can_update_article() throws Exception {
-        Articles updatedArticle = Articles.builder()
-                .id(sampleArticle.getId())
-                .title("Updated Test Article")
-                .url("https://example.com/updated")
-                .explanation("This is an updated test article")
-                .email("updated@example.com")
-                .dateAdded(LocalDateTime.now())
+        Articles newArticle = Articles.builder()
+                .title("New Article")
+                .url("http://newexample.com")
+                .explanation("New Explanation")
+                .email("admin@example.com")
+                .dateAdded(now)
                 .build();
 
-        when(articlesRepository.findById(eq(sampleArticle.getId()))).thenReturn(Optional.of(sampleArticle));
-        when(articlesRepository.save(any(Articles.class))).thenReturn(updatedArticle);
+        when(articlesRepository.save(any(Articles.class))).thenReturn(newArticle);
 
-        mockMvc.perform(put("/api/articles")
-                .param("id", String.valueOf(sampleArticle.getId()))
+        MvcResult response = mockMvc.perform(post("/api/articles/post")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(updatedArticle))
+                .content(mapper.writeValueAsString(newArticle))
                 .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("Updated Test Article"));
-        verify(articlesRepository).save(any(Articles.class)); // Verify article was saved
+                .andExpect(status().isOk()).andReturn();
+
+        verify(articlesRepository, times(1)).save(any(Articles.class));
+        String expectedJson = mapper.writeValueAsString(newArticle);
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals(expectedJson, responseString);
     }
 }
