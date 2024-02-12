@@ -265,7 +265,7 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
         // put
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
-        public void admin_can_edit_an_existing_ucsbdate() throws Exception {
+        public void admin_can_edit_an_existing_RecommendationRequest() throws Exception {
                 // arrange
 
                 LocalDateTime ldt11 = LocalDateTime.parse("2022-01-02T00:00:00");
@@ -274,7 +274,7 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
                 RecommendationRequest RecRequestOrig = RecommendationRequest.builder()
                     .requesterEmail("student1@ucsb.edu")
                     .professorEmail("prof@ucsb.edu")
-                    .explanation("Letter for Recommendation")
+                    .explanation("Letter for Recommendation1")
                     .dateRequested(ldt11)
                     .dateNeeded(ldt12)
                     .done(true)
@@ -286,10 +286,10 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
                 RecommendationRequest RecRequestEdited = RecommendationRequest.builder()
                     .requesterEmail("student2@ucsb.edu")
                     .professorEmail("prof2@ucsb.edu")
-                    .explanation("Letter for Recommendation")
+                    .explanation("Letter for Recommendation2")
                     .dateRequested(ldt21)
                     .dateNeeded(ldt22)
-                    .done(true)
+                    .done(false)
                     .build();
 
                 String requestBody = mapper.writeValueAsString(RecRequestEdited);
@@ -315,7 +315,7 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
         
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
-        public void admin_cannot_edit_ucsbdate_that_does_not_exist() throws Exception {
+        public void admin_cannot_edit_RecommendationRequest_that_does_not_exist() throws Exception {
                 // arrange
 
                 LocalDateTime ldt21 = LocalDateTime.parse("2022-01-04T00:00:00");
