@@ -23,6 +23,6 @@ public class UCSBDate {
   private long id;
 
   private String quarterYYYYQ;
-  private String name;  
+  private String name;
   private LocalDateTime localDateTime;
 }
