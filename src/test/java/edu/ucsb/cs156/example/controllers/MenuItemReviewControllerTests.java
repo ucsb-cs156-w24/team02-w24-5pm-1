@@ -144,3 +144,4 @@ public class MenuItemReviewControllerTests extends ControllerTestCase {
                 assertEquals(expectedJson, responseString);
         }
 }
+
