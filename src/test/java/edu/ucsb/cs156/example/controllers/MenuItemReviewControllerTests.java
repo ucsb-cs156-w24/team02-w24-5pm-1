@@ -65,7 +65,7 @@ public class MenuItemReviewControllerTests extends ControllerTestCase {
                 LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
 
                 MenuItemReview menuItemReview1 = MenuItemReview.builder()
-                                .itemId(1L)
+                                .itemId(1)
                                 .reviewerEmail("cgaucho@ucsb.edu")
                                 .stars(1)
                                 .dateReviewed(ldt1)
@@ -75,7 +75,7 @@ public class MenuItemReviewControllerTests extends ControllerTestCase {
                 LocalDateTime ldt2 = LocalDateTime.parse("2022-03-11T00:00:00");
 
                 MenuItemReview menuItemReview2 = MenuItemReview.builder()
-                                .itemId(2L)
+                                .itemId(2)
                                 .reviewerEmail("phinkey@ucsb.edu")
                                 .stars(5)
                                 .dateReviewed(ldt2)
@@ -116,13 +116,13 @@ public class MenuItemReviewControllerTests extends ControllerTestCase {
 
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
-        public void an_admin_user_can_post_a_new_menuitemreview() throws Exception {
+        public void an_admin_user_can_post_a_new_menu_item_review() throws Exception {
                 // arrange
 
                 LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
 
                 MenuItemReview menuItemReview1 = MenuItemReview.builder()
-                                .itemId(1L)
+                                .itemId(1)
                                 .reviewerEmail("cgaucho@ucsb.edu")
                                 .stars(1)
                                 .dateReviewed(ldt1)
@@ -133,7 +133,7 @@ public class MenuItemReviewControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/MenuItemReview/post?itemId=1&reviewerEmail=cgaucho%40ucsb.edu&stars=1&dateReviewed=2022-01-03T00%3A00%3A00&comments=Bad")
+                                post("/api/MenuItemReview/post?itemId=1&reviewerEmail=cgaucho@ucsb.edu&stars=1&dateReviewed=2022-01-03T00:00:00&comments=Bad")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
