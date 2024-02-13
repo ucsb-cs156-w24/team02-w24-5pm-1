@@ -79,5 +79,39 @@ import java.time.LocalDateTime;
 <span class="fc" id="L79">        return RecommendationRequest;</span>
     }
 
+    @Operation(summary= &quot;Delete a Recommendation Request&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @DeleteMapping(&quot;&quot;)
+    public Object deleteRecommendationRequest(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
+<span class="fc" id="L87">        RecommendationRequest recReq = recommendationRequestRepository.findById(id)</span>
+<span class="fc" id="L88">                .orElseThrow(() -&gt; new EntityNotFoundException(RecommendationRequest.class, id));</span>
+
+<span class="fc" id="L90">        recommendationRequestRepository.delete(recReq);</span>
+<span class="fc" id="L91">        return genericMessage(&quot;Recommendation Request with id %s deleted&quot;.formatted(id));</span>
+    }
+
+    @Operation(summary= &quot;Update a single Recommenation Request&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @PutMapping(&quot;&quot;)
+    public RecommendationRequest updateRecommendationRequest(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id,
+            @RequestBody @Valid RecommendationRequest incoming) {
+
+<span class="fc" id="L101">        RecommendationRequest recReq = recommendationRequestRepository.findById(id)</span>
+<span class="fc" id="L102">                .orElseThrow(() -&gt; new EntityNotFoundException(RecommendationRequest.class, id));</span>
+
+<span class="fc" id="L104">                recReq.setRequesterEmail(incoming.getRequesterEmail());</span>
+<span class="fc" id="L105">                recReq.setProfessorEmail(incoming.getProfessorEmail());</span>
+<span class="fc" id="L106">                recReq.setExplanation(incoming.getExplanation());</span>
+<span class="fc" id="L107">                recReq.setDateRequested(incoming.getDateRequested());</span>
+<span class="fc" id="L108">                recReq.setDateNeeded(incoming.getDateNeeded());</span>
+<span class="fc" id="L109">                recReq.setDone(incoming.getDone());</span>
+
+<span class="fc" id="L111">        recommendationRequestRepository.save(recReq);</span>
+
+<span class="fc" id="L113">        return recReq;</span>
+    }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
