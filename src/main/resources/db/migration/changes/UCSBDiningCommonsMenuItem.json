@@ -3,7 +3,7 @@
       {
         "changeSet": {
           "id": "UCSBDiningCommonsMenuItem-1",
-          "author": "MattP",
+          "author": "VictorG",
           "preConditions": [
             {
               "onFail": "MARK_RAN"
@@ -27,15 +27,15 @@
                       "autoIncrement": true,
                       "constraints": {
                         "primaryKey": true,
-                        "primaryKeyName": "CONSTRAINT_5"
+                        "nullable": false
                       },
                       "name": "ID",
                       "type": "BIGINT"
                     }
                   },
-                  {
+                    {
                     "column": {
-                      "name": "STATION",
+                      "name": "DINING_COMMONS_CODE",
                       "type": "VARCHAR(255)"
                     }
                   },
@@ -47,10 +47,11 @@
                   },
                   {
                     "column": {
-                      "name": "DININGCOMMONSCODE",
+                      "name": "STATION",
                       "type": "VARCHAR(255)"
                     }
                   }
+                
                 ],
                 "tableName": "UCSBDININGCOMMONSMENUITEM"
               }
