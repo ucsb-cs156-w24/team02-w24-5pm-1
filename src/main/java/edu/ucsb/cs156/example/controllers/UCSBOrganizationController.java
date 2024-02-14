@@ -90,7 +90,7 @@ public class UCSBOrganizationController extends ApiController {
 
     @Operation(summary = "Delete a UCSBOrganization")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/delete")
+    @DeleteMapping("")
     public Object deleteOrganization(
             @Parameter(name = "id") @RequestParam String id) {
         UCSBOrganization organization = ucsbOrganizationRepository.findById(id)

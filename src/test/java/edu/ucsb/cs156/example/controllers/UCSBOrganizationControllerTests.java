@@ -159,14 +159,14 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
 
     @Test
     public void updateOrganization__logged_out() throws Exception {
-        mockMvc.perform(put("/api/ucsborganization/update"))
+        mockMvc.perform(put("/api/ucsborganization"))
             .andExpect(status().is(403));
     }
 
     @WithMockUser(roles = { "USER" })
     @Test
     public void updateOrganization__user() throws Exception {
-        mockMvc.perform(put("/api/ucsborganization/update"))
+        mockMvc.perform(put("/api/ucsborganization"))
             .andExpect(status().is(403));
     }
 
@@ -240,14 +240,14 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
 
     @Test
     public void deleteOrganization__logged_out() throws Exception {
-        mockMvc.perform(delete("/api/ucsborganization/delete"))
+        mockMvc.perform(delete("/api/ucsborganization"))
             .andExpect(status().is(403));
     }
 
     @WithMockUser(roles = { "USER" })
     @Test
     public void deleteOrganization__user() throws Exception {
-        mockMvc.perform(delete("/api/ucsborganization/delete"))
+        mockMvc.perform(delete("/api/ucsborganization"))
             .andExpect(status().is(403));
     }
 
@@ -266,7 +266,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
             .thenReturn(Optional.of(org1));
 
         MvcResult response = mockMvc.perform(
-            delete("/api/ucsborganization/delete?id=org1")
+            delete("/api/ucsborganization?id=org1")
             .with(csrf()))
             .andExpect(status().isOk()).andReturn();
         
@@ -284,7 +284,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
             .thenReturn(Optional.empty());
         
         MvcResult response = mockMvc.perform(
-            delete("/api/ucsborganization/delete?id=org1")
+            delete("/api/ucsborganization?id=org1")
             .with(csrf()))
             .andExpect(status().isNotFound()).andReturn();
         
