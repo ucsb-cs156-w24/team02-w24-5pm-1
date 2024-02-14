@@ -81,7 +81,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
 
     @Test
     public void getOrganization__logged_out() throws Exception {
-        mockMvc.perform(get("/api/ucsborganization?orgCode=org1"))
+        mockMvc.perform(get("/api/ucsborganization?id=org1"))
             .andExpect(status().is(403));
     }
 
@@ -99,7 +99,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
 
         String expectedJson = mapper.writeValueAsString(org1);
 
-        MvcResult response = mockMvc.perform(get("/api/ucsborganization?orgCode=org1"))
+        MvcResult response = mockMvc.perform(get("/api/ucsborganization?id=org1"))
             .andExpect(status().isOk()).andReturn();
 
         String responseString = response.getResponse().getContentAsString();
@@ -113,7 +113,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
         when(ucsbOrganizationRepository.findById("org1")).thenReturn(Optional.empty());
 
         // act
-        MvcResult response = mockMvc.perform(get("/api/ucsborganization?orgCode=org1"))
+        MvcResult response = mockMvc.perform(get("/api/ucsborganization?id=org1"))
             .andExpect(status().is(404)).andReturn();
     }
 
@@ -195,7 +195,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
         when(ucsbOrganizationRepository.save(eq(org1))).thenReturn(org1);
 
         MvcResult response = mockMvc.perform(
-            put("/api/ucsborganization?orgCode=org1")
+            put("/api/ucsborganization?id=org1")
             .contentType(MediaType.APPLICATION_JSON)
             .characterEncoding("utf-8")
             .content(requestBody)
@@ -224,7 +224,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
             .thenReturn(Optional.empty());
         
         MvcResult response = mockMvc.perform(
-            put("/api/ucsborganization?orgCode=org1")
+            put("/api/ucsborganization?id=org1")
             .contentType(MediaType.APPLICATION_JSON)
             .characterEncoding("utf-8")
             .content(requestBody)
@@ -266,7 +266,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
             .thenReturn(Optional.of(org1));
 
         MvcResult response = mockMvc.perform(
-            delete("/api/ucsborganization/delete?orgCode=org1")
+            delete("/api/ucsborganization/delete?id=org1")
             .with(csrf()))
             .andExpect(status().isOk()).andReturn();
         
@@ -284,7 +284,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
             .thenReturn(Optional.empty());
         
         MvcResult response = mockMvc.perform(
-            delete("/api/ucsborganization/delete?orgCode=org1")
+            delete("/api/ucsborganization/delete?id=org1")
             .with(csrf()))
             .andExpect(status().isNotFound()).andReturn();
         

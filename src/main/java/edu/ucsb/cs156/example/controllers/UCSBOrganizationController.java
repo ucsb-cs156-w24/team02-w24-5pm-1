@@ -63,9 +63,9 @@ public class UCSBOrganizationController extends ApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("")
     public UCSBOrganization geOrganization(
-            @Parameter(name = "orgCode") @RequestParam String orgCode) {
-        UCSBOrganization organization = ucsbOrganizationRepository.findById(orgCode)
-                .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgCode));
+            @Parameter(name = "id") @RequestParam String id) {
+        UCSBOrganization organization = ucsbOrganizationRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, id));
         return organization;
 
     }
@@ -74,11 +74,11 @@ public class UCSBOrganizationController extends ApiController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("")
     public UCSBOrganization updateOrganization(
-            @Parameter(name = "orgCode") @RequestParam String orgCode,
+            @Parameter(name = "id") @RequestParam String id,
             @RequestBody @Valid UCSBOrganization incoming) {
                 
-        UCSBOrganization organization = ucsbOrganizationRepository.findById(orgCode)
-                .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgCode));
+        UCSBOrganization organization = ucsbOrganizationRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, id));
         organization.setOrgTranslationShort(incoming.getOrgTranslationShort());
         organization.setOrgTranslation(incoming.getOrgTranslation());
         organization.setInactive(incoming.getInactive());
@@ -92,12 +92,12 @@ public class UCSBOrganizationController extends ApiController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/delete")
     public Object deleteOrganization(
-            @Parameter(name = "orgCode") @RequestParam String orgCode) {
-        UCSBOrganization organization = ucsbOrganizationRepository.findById(orgCode)
-                .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgCode));
+            @Parameter(name = "id") @RequestParam String id) {
+        UCSBOrganization organization = ucsbOrganizationRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, id));
 
         ucsbOrganizationRepository.delete(organization);
-        return genericMessage("UCSBOrganization with id %s deleted".formatted(orgCode));
+        return genericMessage("UCSBOrganization with id %s deleted".formatted(id));
     }
     
 }
