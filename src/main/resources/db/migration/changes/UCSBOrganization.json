@@ -12,7 +12,7 @@
               "not": [
                 {
                   "tableExists": {
-                    "tableName": "UCSBOrganization"
+                    "tableName": "UCSBORGANIZATION"
                   }
                 }
               ]
@@ -26,21 +26,21 @@
                     "column": {
                       "constraints": {
                         "primaryKey": true,
-                        "primaryKeyName": "UCSBOrganizationPK"
+                        "primaryKeyName": "UCSBORGANIZATIONPK"
                       },
-                      "name": "ORGCODE",
+                      "name": "ORG_CODE",
                       "type": "VARCHAR(255)"
                     }
                   },
                   {
                     "column": {
-                      "name": "ORGTRANSLATIONSHORT",
+                      "name": "ORG_TRANSLATION_SHORT",
                       "type": "VARCHAR(255)"
                     }
                   },
                   {
                     "column": {
-                      "name": "ORGTRANSLATION",
+                      "name": "ORG_TRANSLATION",
                       "type": "VARCHAR(255)"
                     }
                   },
@@ -51,7 +51,7 @@
                     }
                   }
                 ],
-                "tableName": "UCSBOrganization"
+                "tableName": "UCSBORGANIZATION"
               }
             }
           ]
