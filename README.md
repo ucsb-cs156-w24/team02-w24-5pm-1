@@ -14,7 +14,7 @@ Deployments:
 | `RecommendationRequest`     | Chris        | ChrisWoolson  |
 | `MenuItemReview`            | Winston      | winzuo        |
 | `HelpRequest`               | Sam          | TantaiYanhen  |
-| `Articles`                  | Justin       | haojustin        |
+| `Articles`                  | Justin       | haojustin     |
 ```
 
 # Setup before running application
