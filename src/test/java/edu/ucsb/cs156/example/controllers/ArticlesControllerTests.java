@@ -66,10 +66,10 @@ public class ArticlesControllerTests extends ControllerTestCase {
                 LocalDate ldt1 = LocalDate.parse("2022-01-03");
 
                 Articles articles1 = Articles.builder()
-                                .title("article0")
-                                .url("TestArticle1.com")
-                                .explanation("article2fortesting")
-                                .email("test0@gmail.edu")
+                                .title("Article0")
+                                .url("TestArticle0.com")
+                                .explanation("article0fortesting")
+                                .email("test0@ucsb.edu")
                                 .dateAdded(ldt1)
                                 .build();
 
@@ -267,10 +267,10 @@ public class ArticlesControllerTests extends ControllerTestCase {
                 LocalDate ldt2 = LocalDate.parse("2023-01-08");
 
                 Articles articlesOrig = Articles.builder()
-                                .title("article0")
-                                .url("TestArticle1.com")
-                                .explanation("article2fortesting")
-                                .email("test0@gmail.edu")
+                                .title("Article0")
+                                .url("TestArticle0.com")
+                                .explanation("article0fortesting")
+                                .email("test0@ucsb.edu")
                                 .dateAdded(ldt1)
                                 .build();
 
