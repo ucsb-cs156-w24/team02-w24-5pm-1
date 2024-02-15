@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-w24/team02-w24-5pm-1
 owner: ucsb-cs156-w24
 repo_name: team02-w24-5pm-1
-pull_requests: []
+pull_requests: [{"author":{"id":"MDQ6VXNlcjMwMDUzNTkx","is_bot":false,"login":"ChrisWoolson","name":"Chris Woolson"},"headRefName":"CW-PutRecommendationRequest","number":67,"title":"Small Bug Fixes","url":"https://github.com/ucsb-cs156-w24/team02-w24-5pm-1/pull/67"}]
