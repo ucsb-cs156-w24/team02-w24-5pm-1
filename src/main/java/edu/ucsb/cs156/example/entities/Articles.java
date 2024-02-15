@@ -1,6 +1,9 @@
 package edu.ucsb.cs156.example.entities;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,12 +20,13 @@ import lombok.Builder;
 @Builder
 @Entity(name = "articles")
 public class Articles {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String title;
-    private String url;
-    private String explanation;
-    private String email;
-    private LocalDateTime dateAdded;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
+
+  private String title;
+  private String url;
+  private String explanation;
+  private String email;
+  private LocalDate dateAdded;
 }
