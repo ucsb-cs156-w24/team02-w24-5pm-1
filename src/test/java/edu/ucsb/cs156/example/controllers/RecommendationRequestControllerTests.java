@@ -80,7 +80,7 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
                           RecommendationRequest RecommendationRequest2 = RecommendationRequest.builder()
                                           .requesterEmail("student2@ucsb.edu")
                                           .professorEmail("prof2@ucsb.edu")
-                                          .explanation("Letter of Reccomendation number 2")
+                                          .explanation("Letter of Recommendation number 2")
                                           .dateRequested(time12)
                                           .dateNeeded(time22)
                                           .done(true)

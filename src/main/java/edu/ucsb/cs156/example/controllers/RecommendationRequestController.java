@@ -40,7 +40,7 @@ public class RecommendationRequestController extends ApiController {
     @Operation(summary= "List all ucsb recommendation requests")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
-    public Iterable<RecommendationRequest> allRequests() {
+    public Iterable<RecommendationRequest> allRecommendationRequests() {
         Iterable<RecommendationRequest> requests = recommendationRequestRepository.findAll();
         return requests;
     }
