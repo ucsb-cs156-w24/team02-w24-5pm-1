@@ -6,6 +6,17 @@ Deployments:
 
 * Prod: <https://team02.dokku-05.cs.ucsb.edu>
 
+```
+| Table                       | Team Member  | Github Id     |
+|-----------------------------|--------------|---------------|
+| `UCSBDiningCommonsMenuItem` | Victor       | El-Beetor     |
+| `UCSBOrganization`          | Luis         | Bravo-Luis    |
+| `RecommendationRequest`     | Chris        | ChrisWoolson  |
+| `MenuItemReview`            | Winston      | winzuo        |
+| `HelpRequest`               | Sam          | TantaiYanhen  |
+| `Articles`                  | Justin       | haojustin        |
+```
+
 # Setup before running application
 
 Before running the application for the first time,
